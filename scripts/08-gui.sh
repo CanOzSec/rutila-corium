@@ -10,7 +10,7 @@ function install_apttools() {
 
 
 function install_burpsuite() {
-	curl -fLo /tmp/burp.sh 'https://portswigger.net/burp/releases/download?product=community&version=2025.8.8&type=Linux'
+	curl -fLo /tmp/burp.sh 'https://portswigger.net/burp/releases/download?product=community&type=Linux'
 	chmod +x /tmp/burp.sh && /tmp/burp.sh -q
 	error_handling "installing burp suite community edition" "Installed burp suite community edition"
 	ln -sf /opt/BurpSuiteCommunity/BurpSuiteCommunity /opt/symlinks/
@@ -23,8 +23,8 @@ function install_burpsuite() {
 
 
 function install_ghidra() {
-	curl -fLo /tmp/ghidra.zip 'https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.4.2_build/ghidra_11.4.2_PUBLIC_20250826.zip'
-	unzip /tmp/ghidra -d /opt/repositories/
+	cd /tmp/ && curl -s https://api.github.com/repos/NationalSecurityAgency/ghidra/releases/latest | jq -r .assets[].browser_download_url | wget -i -
+	unzip /tmp/ghidra*.zip -d /opt/repositories
 	error_handling "installing ghidra" "Installed ghidra"
 	ln -sf /opt/repositories/ghidra_*/ghidraRun /opt/symlinks/
 	sed -i 's/bg jdk/fg jdk/' /opt/repositories/ghidra_*/ghidraRun
@@ -55,7 +55,7 @@ function install_jadx() {
 
 
 install_apttools
-install_burpsuite # burp browser doesn't seem to work.
+install_burpsuite
 install_ghidra
 install_freerdp3
 install_remmina

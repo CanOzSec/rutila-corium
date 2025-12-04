@@ -44,10 +44,8 @@ function install_rsactftool() {
 
 
 function install_terminal_tools() {
-    apt install -y tmux neovim xq jq fzf file
+    apt install -y tmux neovim fzf file
     error_handling "installing terminal tools" "Installed terminal tools"
-    ln -sf /usr/bin/jq /opt/symlinks/
-    ln -sf /usr/bin/xq /opt/symlinks/
 }
 
 

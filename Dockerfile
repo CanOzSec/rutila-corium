@@ -38,5 +38,8 @@ COPY dotfiles /opt/dotfiles
 COPY scripts/09-misc.sh /opt/scripts
 RUN chmod +x ./09-misc.sh && ./09-misc.sh
 
+COPY scripts/10-custom.sh /opt/scripts
+RUN chmod +x ./10-custom.sh && ./10-custom.sh
+
 FROM scratch
 COPY --from=base / /

@@ -3,7 +3,7 @@ source ./helper-functions.sh
 
 
 function install_amass() {
-	/opt/symlinks/go install -v github.com/owasp-amass/amass/v4/...@master
+	CGO_ENABLED=0 /opt/symlinks/go install -v github.com/owasp-amass/amass/v5/cmd/amass@main
 	error_handling "installing amass" "Installed amass"
 	ln -sf /opt/repositories/go/bin/amass /opt/symlinks/
 }

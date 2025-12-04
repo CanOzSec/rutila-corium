@@ -10,12 +10,15 @@ function install_python_ruby_php() {
 
 
 function install_openjdks() {
-    apt install -y openjdk-21-jdk maven
+    apt install -y openjdk-21-jdk libasmtools-java maven
     error_handling "installing openjdk 21 and maven" "Installed openjdk 21 and maven"
+    ln -sf /usr/bin/mvn /opt/symlinks/
+    for i in $(find /usr/lib/jvm/java-1.21.0-openjdk-amd64/bin/*); do toolName=$(echo $i|cut -d/ -f7); ln -sf $i /opt/symlinks/java21-$toolName; done
     # Install java jdk 8 for ysoserial
     curl -fLo /tmp/bellsoft-jdk8u382+6-linux-amd64.deb https://download.bell-sw.com/java/8u382+6/bellsoft-jdk8u382+6-linux-amd64.deb
     dpkg -i /tmp/bellsoft-jdk8u382+6-linux-amd64.deb
     error_handling "installing jdk 8" "Installed jdk 8"
+    for i in $(find /usr/lib/jvm/bellsoft-java8-amd64/bin/*); do toolName=$(echo $i|cut -d/ -f7); ln -sf $i /opt/symlinks/java8-$toolName; done
 }
 
 
@@ -36,7 +39,7 @@ function install_rust() {
 
 
 function install_cross_compilers() {
-    apt install -y libclang-dev musl-tools mingw-w64 binutils-mingw-w64 g++-mingw-w64 g++-mingw-w64-x86-64 gcc-mingw-w64-x86-64 osslsigncode
+    apt install -y cmake libclang-dev musl-tools mingw-w64 binutils-mingw-w64 g++-mingw-w64 g++-mingw-w64-x86-64 gcc-mingw-w64-x86-64 osslsigncode
     error_handling "installing cross compilers" "Installed cross compilers"
     ln -sf /usr/bin/x86_64-w64-mingw32* /opt/symlinks/
 }
