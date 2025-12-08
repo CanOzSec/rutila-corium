@@ -54,9 +54,29 @@ function install_jadx() {
 }
 
 
+function install_recaf() {
+	mkdir -p /opt/repositories/recaf
+	curl -fLo /opt/repositories/recaf/recaf.jar https://github.com/Col-E/Recaf/releases/download/4.0.0-alpha/recaf-4x-alpha-linux-86x64.jar
+	error_handling "installing recaf" "Installed recaf"
+	echo -e '#!/bin/bash\njava -XX:MaxRAMPercentage=50 -jar /opt/repositories/recaf/recaf.jar "@"' >> /opt/repositories/recaf/recaf
+	chmod +x /opt/repositories/recaf/recaf
+	ln -sf /opt/repositories/recaf/recaf /opt/symlinks/
+}
+
+
+function install_visualvm() {
+	curl -fLo /tmp/visualvm.zip https://github.com/oracle/visualvm/releases/download/2.2/visualvm_22.zip
+	error_handling "installing visualvm" "Installed visualvm"
+	unzip /tmp/visualvm.zip -d /opt/repositories/visualvm
+	ln -sf /opt/repositories/visualvm/visualvm_22/bin/visualvm /opt/symlinks/
+}
+
+
 install_apttools
 install_burpsuite
 install_ghidra
 install_freerdp3
 install_remmina
 install_jadx
+install_recaf
+install_visualvm

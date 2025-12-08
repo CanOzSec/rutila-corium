@@ -10,15 +10,16 @@ function install_python_ruby_php() {
 
 
 function install_openjdks() {
-    apt install -y openjdk-21-jdk libasmtools-java maven
-    error_handling "installing openjdk 21 and maven" "Installed openjdk 21 and maven"
-    ln -sf /usr/bin/mvn /opt/symlinks/
-    for i in $(find /usr/lib/jvm/java-1.21.0-openjdk-amd64/bin/*); do toolName=$(echo $i|cut -d/ -f7); ln -sf $i /opt/symlinks/java21-$toolName; done
     # Install java jdk 8 for ysoserial
     curl -fLo /tmp/bellsoft-jdk8u382+6-linux-amd64.deb https://download.bell-sw.com/java/8u382+6/bellsoft-jdk8u382+6-linux-amd64.deb
     dpkg -i /tmp/bellsoft-jdk8u382+6-linux-amd64.deb
     error_handling "installing jdk 8" "Installed jdk 8"
     for i in $(find /usr/lib/jvm/bellsoft-java8-amd64/bin/*); do toolName=$(echo $i|cut -d/ -f7); ln -sf $i /opt/symlinks/java8-$toolName; done
+    # Install latest stable jdk for development and other stuff.
+    apt install -y openjdk-25-jdk libasmtools-java maven
+    error_handling "installing openjdk 25 and maven" "Installed openjdk 25 and maven"
+    ln -sf /usr/bin/mvn /opt/symlinks/
+    for i in $(find /usr/lib/jvm/java-1.25.0-openjdk-amd64/bin/*); do toolName=$(echo $i|cut -d/ -f7); ln -sf $i /opt/symlinks/java25-$toolName; done
 }
 
 
@@ -57,7 +58,7 @@ function install_nodejs() {
 
 
 function set_java_version() {
-    update-alternatives --set java /usr/lib/jvm/java-21-openjdk-amd64/bin/java
+    update-alternatives --set java /usr/lib/jvm/java-25-openjdk-amd64/bin/java
     error_handling "setting java version" "Set java version"
 }
 

@@ -2,7 +2,7 @@
 
 
 args="$@"
-guiTools="wireshark BurpSuiteCommunity ghidraRun freerdp3 remmina jadx"
+guiTools="wireshark BurpSuiteCommunity ghidraRun freerdp3 remmina jadx recaf visualvm"
 for tool in $guiTools; do
 	if [[ $0 == *"$tool"* ]]; then
 		if [[ -n "$DISPLAY" ]]; then
