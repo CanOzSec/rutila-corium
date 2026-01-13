@@ -198,11 +198,6 @@ function install_rusthound() {
 }
 
 
-function make_executable() {
-	chmod +x /opt/symlinks/*
-}
-
-
 install_apttools
 install_impacket
 install_bloodyad
@@ -223,4 +218,3 @@ install_pywhisker
 install_lsassy
 install_pygpoabuse
 install_ntdissector
-make_executable

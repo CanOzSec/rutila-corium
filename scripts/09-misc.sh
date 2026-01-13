@@ -51,7 +51,6 @@ function install_terminal_tools() {
 
 function cleanup(){
     rm -rf /tmp/*
-    chmod +x /opt/symlinks/*
     /opt/symlinks/go clean -cache
     su -Pc '/opt/symlinks/go clean -cache' - user
     rm -rf /root/.cache
@@ -82,6 +81,11 @@ function cleanup(){
 }
 
 
+function make_executable() {
+    find /opt/symlinks -maxdepth 1 ! -name searchsploit -exec chmod +x {} +
+}
+
+
 install_usernameanarchy
 install_wister
 install_crunch_cupp_cewl
@@ -89,3 +93,4 @@ install_john
 set_java_version
 install_terminal_tools
 cleanup
+make_executable

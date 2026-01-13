@@ -36,6 +36,12 @@ function download_pspy() {
 }
 
 
+function download_exploitdb() {
+    git clone https://gitlab.com/exploit-database/exploitdb.git /opt/attack/exploitdb
+    sed -i 's/\/opt\/exploitdb/\/opt\/attack\/exploitdb/' /opt/attack/exploitdb/.searchsploit_rc
+}
+
+
 download_seclists
 download_sharpcollection
 download_peassng

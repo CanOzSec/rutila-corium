@@ -16,7 +16,11 @@ function install_sliver() {
 	git clone https://github.com/BishopFox/sliver.git /opt/repositories/sliver
 	error_handling "downloading sliver" "Downloaded sliver"
 	chown user:user -R /opt/repositories/sliver
-	su -Pc "export GOPATH=/opt/repositories/go && export PATH=$PATH:/opt/symlinks/ && cd /opt/repositories/sliver && make" - user
+	export GOPATH=/opt/repositories/go
+	export PATH=$PATH:/opt/symlinks/
+	cd /opt/repositories/sliver
+	sed -i 's/-mod=vendor/-mod=vendor -buildvcs=false/g' Makefile
+	make
 	error_handling "installing sliver" "Installed sliver"
 	su -Pc "/opt/symlinks/sliver-server unpack"
 	ln -sf /opt/repositories/sliver/sliver-* /opt/symlinks/

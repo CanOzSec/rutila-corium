@@ -110,11 +110,6 @@ function install_python_libraries() {
 }
 
 
-function make_executable() {
-	chmod +x /opt/symlinks/*
-}
-
-
 install_ffuf
 install_sqlmap
 install_jwttool
@@ -129,4 +124,3 @@ install_phpggc
 install_nuclei
 install_cookiemonster
 install_python_libraries
-make_executable

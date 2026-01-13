@@ -18,7 +18,7 @@ for tool in $guiTools; do
 done
 
 
-rootTools="openvpn wireshark tcpdump tshark nmap arp-scan p0f ssh-mitm coercer mitm6 smbserver.py Responder.py krbrelayx.py ntlmrelayx.py"
+rootTools="masscan openvpn wireshark tcpdump tshark nmap arp-scan p0f ssh-mitm coercer mitm6 smbserver.py Responder.py krbrelayx.py ntlmrelayx.py"
 for tool in $rootTools; do
 	if [[ $0 == *"$tool"* ]]; then
 		user="0:0"
