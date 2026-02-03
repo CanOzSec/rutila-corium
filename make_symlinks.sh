@@ -6,5 +6,5 @@ export symlinksToCreate=$(sudo docker run --log-driver=none -a stdout --rm rutil
 
 for i in $symlinksToCreate; do
 	echo $i;
-	ln -sf $PWD/wrapper.sh /opt/symlinks/$i;
+	ln -sf $PWD/wrapper.py /opt/symlinks/$i;
 done

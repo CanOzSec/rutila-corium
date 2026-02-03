@@ -30,8 +30,7 @@ function install_john() {
     cd /opt/repositories/john/src/ && ./configure && make -s clean && make -j8
     error_handling "installing john" "Installed john"
     ln -sf /opt/repositories/john/run/john /opt/symlinks/
-    ln -sf /opt/repositories/john/run/*.py /opt/symlinks/
-    ln -sf /opt/repositories/john/run/*.pl /opt/symlinks/
+    ln -sf /opt/repositories/john/run/*2john* /opt/symlinks/
 }
 
 
