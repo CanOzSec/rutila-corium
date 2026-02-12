@@ -198,6 +198,13 @@ function install_rusthound() {
 }
 
 
+function install_relayinformer() {
+	pipx install --global 'git+https://github.com/zyn3rgy/RelayInformer.git#subdirectory=Python/'
+	error_handling "installing relayinformer" "Installed relayinformer"
+	ln -sf /usr/local/bin/relayinformer /opt/symlinks/
+}
+
+
 install_apttools
 install_impacket
 install_bloodyad
@@ -218,3 +225,4 @@ install_pywhisker
 install_lsassy
 install_pygpoabuse
 install_ntdissector
+install_relayinformer
