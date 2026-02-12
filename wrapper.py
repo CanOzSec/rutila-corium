@@ -7,7 +7,8 @@ from pathlib import Path
 # Program exceptions for docker.
 ttyLessPrograms = [
 	"jq",
-	"xq"
+	"xq",
+	"nc"
 ]
 guiPrograms = [
 	"wireshark",
@@ -15,7 +16,7 @@ guiPrograms = [
 	"ghidraRun",
 	"freerdp3",
 	"remmina",
-	"jadx",
+	"jadx-gui",
 	"recaf",
 	"visualvm"
 ]
@@ -50,6 +51,7 @@ programArgs = sys.argv[1:]
 
 prefix = ["/usr/bin/docker", "run"]
 args = [
+	"--init",
 	"--attach", "stdin",
 	"--attach", "stdout",
 	"--attach", "stderr",

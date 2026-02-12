@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir /opt/symlinks/
-export symlinksToCreate=$(sudo docker run --log-driver=none -a stdout --rm rutila-corium ls -l /opt/symlinks | awk '{print $9}')
+export symlinksToCreate=$(docker run --log-driver=none -a stdout --rm rutila-corium ls -l /opt/symlinks | awk '{print $9}')
 
 
 for i in $symlinksToCreate; do

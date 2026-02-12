@@ -29,7 +29,7 @@ function install_john() {
     git clone https://github.com/openwall/john.git /opt/repositories/john
     cd /opt/repositories/john/src/ && ./configure && make -s clean && make -j8
     error_handling "installing john" "Installed john"
-    ln -sf /opt/repositories/john/run/john /opt/symlinks/
+    echo -e '#!/bin/bash\n/opt/repositories/john/run/john "$@"' > /opt/symlinks/john
     ln -sf /opt/repositories/john/run/*2john* /opt/symlinks/
 }
 
