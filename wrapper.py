@@ -24,6 +24,7 @@ rootPrograms = [
 	"masscan",
 	"openvpn",
 	"wireshark",
+	"bettercap",
 	"tcpdump",
 	"tshark",
 	"nmap",
@@ -38,7 +39,12 @@ rootPrograms = [
 	"ntlmrelayx.py"
 ]
 netAdminCapabilityPrograms = [
-	"openvpn"
+	"openvpn",
+	"bettercap"
+]
+netRawCapabilityPrograms = [
+	"nmap",
+	"bettercap"
 ]
 deviceAccessPrograms = {
 	"openvpn":"/dev/net/tun",
@@ -90,6 +96,10 @@ else:
 if programName in netAdminCapabilityPrograms:
 	optionalArgs.append("--cap-add")
 	optionalArgs.append("NET_ADMIN")
+
+if programName in netRawCapabilityPrograms:
+	optionalArgs.append("--cap-add")
+	optionalArgs.append("NET_RAW")
 
 if programName in deviceAccessPrograms.keys():
 	optionalArgs.append("--device")
