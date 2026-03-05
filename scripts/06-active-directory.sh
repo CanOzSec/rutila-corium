@@ -225,4 +225,6 @@ install_pywhisker
 install_lsassy
 install_pygpoabuse
 install_ntdissector
+install_nopac
+install_rusthound
 install_relayinformer

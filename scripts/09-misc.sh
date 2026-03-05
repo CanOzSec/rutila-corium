@@ -29,7 +29,7 @@ function install_john() {
     git clone https://github.com/openwall/john.git /opt/repositories/john
     cd /opt/repositories/john/src/ && ./configure && make -s clean && make -j8
     error_handling "installing john" "Installed john"
-    echo -e '#!/bin/bash\n/opt/repositories/john/run/john "$@"' > /opt/symlinks/john
+    echo -e '#!/bin/bash\n/opt/repositories/john/run/john --no-log --session=none --pot=john.pot "$@"' > /opt/symlinks/john
     ln -sf /opt/repositories/john/run/*2john* /opt/symlinks/
 }
 
@@ -89,6 +89,7 @@ install_usernameanarchy
 install_wister
 install_crunch_cupp_cewl
 install_john
+install_rsactftool
 set_java_version
 install_terminal_tools
 cleanup
