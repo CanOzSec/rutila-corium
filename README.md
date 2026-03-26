@@ -29,3 +29,7 @@ You can add `/opt/symlinks` to your path and tools will be ready to use:
 ```
 export PATH=$PATH:/opt/symlinks/
 ```
+
+## Notes
+
+States and configurations of tools will be put at your home directory under `.local/rutila-corium`.

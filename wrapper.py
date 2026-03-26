@@ -4,6 +4,9 @@ import sys
 import os
 from pathlib import Path
 
+# State and config home
+stateHome = Path.home() / Path(".local/rutila-corium")
+
 # Program exceptions for docker.
 ttyLessPrograms = [
 	"jq",
@@ -14,7 +17,7 @@ guiPrograms = [
 	"wireshark",
 	"BurpSuiteCommunity",
 	"ghidraRun",
-	"freerdp3",
+	"xfreerdp3",
 	"remmina",
 	"jadx-gui",
 	"recaf",
@@ -50,7 +53,11 @@ deviceAccessPrograms = {
 	"openvpn":"/dev/net/tun",
 	"BurpSuiteCommunity":"/dev/dri"
 }
-
+localStateFixes = {
+	"amass":"/home/user/.config/amass",
+	"nxc":"/home/user/.nxc",
+	"nuclei":"/home/user/nuclei-templates"
+}
 
 programName = sys.argv[0].split("/")[-1]
 programArgs = sys.argv[1:]
@@ -65,15 +72,15 @@ args = [
 	"--workdir", "/opt/host",
 	"--volume", f"{Path.cwd()}:/opt/host",
 	"--volume", "/opt/attack/:/opt/attack",
-	"--mount", "type=bind,src=/opt/rutila-corium/config/krb5.conf,dst=/etc/krb5.conf",
-	"--mount", "type=bind,src=/opt/rutila-corium/config/Responder.conf,dst=/etc/Responder.conf",
-	"--mount", "type=bind,src=/opt/rutila-corium/config/certs/responder.crt,dst=/etc/responder.crt",
-	"--mount", "type=bind,src=/opt/rutila-corium/config/certs/responder.key,dst=/etc/responder.key",
+	"--mount", f"type=bind,src={stateHome}/config/krb5.conf,dst=/etc/krb5.conf",
+	"--mount", f"type=bind,src={stateHome}/config/Responder.conf,dst=/etc/Responder.conf",
+	"--mount", f"type=bind,src={stateHome}/config/certs/responder.crt,dst=/etc/responder.crt",
+	"--mount", f"type=bind,src={stateHome}/config/certs/responder.key,dst=/etc/responder.key",
 	"--network", "host",
 	"--rm",
 	"--interactive",
 	"rutila-corium",
-	programName
+	programName,
 ]
 
 optionalArgs = []
@@ -105,6 +112,20 @@ if programName in deviceAccessPrograms.keys():
 	optionalArgs.append("--device")
 	optionalArgs.append(deviceAccessPrograms[programName])
 
+if "KRB5CCNAME" in os.environ.keys():
+	optionalArgs.append("-e")
+	optionalArgs.append("KRB5CCNAME")
+
+if programName in localStateFixes.keys():
+	try:
+		Path(f"{stateHome}/{programName}_state").mkdir(parents=True)
+	except FileExistsError:
+		pass
+	optionalArgs.append("--mount")
+	optionalArgs.append(f"type=bind,src={stateHome}/{programName}_state,dst={localStateFixes[programName]}")
+
 command = prefix + optionalArgs + args + programArgs
+
+print(" ".join(command))
 
 os.spawnvpe(os.P_WAIT, command[0], command, os.environ)

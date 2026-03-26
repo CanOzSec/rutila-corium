@@ -184,6 +184,7 @@ function install_nopac() {
 	error_handling "installing noPac" "Installed noPac"
 	sed -i 's/\/usr\/bin\/env python/\/opt\/repositories\/krbrelayx\/virt\/bin\/python3/g' /opt/repositories/noPac/noPac.py
 	chmod +x /opt/repositories/noPac/noPac.py
+	/opt/repositories/krbrelayx/virt/bin/python3 -m pip install pycryptodome 
 	ln -sf /opt/repositories/noPac/noPac.py /opt/symlinks/
 }
 
@@ -202,6 +203,18 @@ function install_relayinformer() {
 	pipx install --global 'git+https://github.com/zyn3rgy/RelayInformer.git#subdirectory=Python/'
 	error_handling "installing relayinformer" "Installed relayinformer"
 	ln -sf /usr/local/bin/relayinformer /opt/symlinks/
+}
+
+
+function install_ntlm_reflection_poc() {
+	git clone https://github.com/mverschu/CVE-2025-33073.git /opt/repositories/ntlm-reflection
+	python3 -m venv /opt/repositories/ntlm-reflection/virt
+	/opt/repositories/ntlm-reflection/virt/bin/python3 -m pip install -r /opt/repositories/ntlm-reflection/requirements.txt
+	error_handling "installing ntlm-reflection" "Installed ntlm-reflection"
+	sed -i 's/\/usr\/bin\/env python3/\/opt\/repositories\/ntlm-reflection\/virt\/bin\/python3/g' /opt/repositories/ntlm-reflection/CVE-2025-33073.py
+	sed -i 's/\/usr\/bin\/env python/\/opt\/repositories\/ntlm-reflection\/virt\/bin\/python3/g' /opt/repositories/ntlm-reflection/dnstool.py
+	ln -sf 	/opt/repositories/ntlm-reflection/CVE-2025-33073.py /opt/symlinks/
+	ln -sf /opt/repositories/ntlm-reflection/CVE-2025-33073.py /opt/symlinks/ntlm-reflection
 }
 
 
@@ -228,3 +241,4 @@ install_ntdissector
 install_nopac
 install_rusthound
 install_relayinformer
+install_ntlm_reflection_poc

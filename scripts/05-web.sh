@@ -87,13 +87,9 @@ function install_phpggc() {
 
 
 function install_nuclei() {
-	/opt/symlinks/go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+	/opt/symlinks/go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 	error_handling "installing nuclei" "Installed nuclei"
 	ln -sf /opt/repositories/go/bin/nuclei /opt/symlinks/
-	/opt/symlinks/nuclei
-	error_handling "updating nuclei templates" "Updated nuclei templates"
-	cp -r /root/nuclei-templates /home/user/
-	chown user:user -R /home/user/nuclei-templates/
 }
 
 
