@@ -28,6 +28,10 @@ function install_apttools() {
 	ln -sf /usr/sbin/arpspoof /opt/symlinks/
 	ln -sf /usr/sbin/dnsspoof /opt/symlinks/
 	ln -sf /usr/sbin/dsniff /opt/symlinks/
+	ln -sf /usr/bin/nslookup /opt/symlinks/
+	ln -sf /usr/bin/traceroute /opt/symlinks/
+	ln -sf /usr/bin/traceroute6 /opt/symlinks/
+	ln -sf /usr/bin/nslookup /opt/symlinks/
 }
 
 

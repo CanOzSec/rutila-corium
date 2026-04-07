@@ -38,10 +38,11 @@ function prepare_directories() {
 
 function install_cli_tools() {
     apt install -y  git curl wget time faketime procps locate kmod traceroute lsb-release   \
-                    iproute2 net-tools iputils-ping traceroute dnsutils socat openvpn telnet \
+                    iproute2 net-tools iputils-ping dnsutils socat openvpn telnet           \
                     nfs-common ftp gnupg2 netcat-openbsd less p7zip-full xz-utils ffmpeg xq jq
     error_handling "installing useful cli tools" "Installed useful cli tools"
     ln -sf /usr/bin/socat /opt/symlinks/
+    ln -sf /usr/bin/7z /opt/symlinks/
     ln -sf /usr/bin/nc /opt/symlinks/
     ln -sf /usr/bin/dig /opt/symlinks/
     ln -sf /usr/bin/ftp /opt/symlinks/

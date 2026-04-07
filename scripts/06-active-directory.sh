@@ -25,6 +25,9 @@ function install_impacket() {
 	pipx install --global git+https://github.com/fortra/impacket
 	error_handling "installing impacket" "Installed impacket"
 	ln -sf /opt/pipx/venvs/impacket/bin/*.py /opt/symlinks/
+	for i in $(ls -l /opt/pipx/venvs/impacket/bin/*.py | awk '{print $9}' | cut -d'/' -f 7 | cut -d '.' -f1);
+		do ln -sf /opt/pipx/venvs/impacket/bin/$i.py /tmp/impacket-$i;
+	done
 }
 
 

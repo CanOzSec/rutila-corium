@@ -81,7 +81,7 @@ function cleanup(){
 
 
 function make_executable() {
-    ln -sf /usr/bin/bash /opt/symlinks/
+    ln -sf /usr/bin/bash /opt/symlinks/rutila-bash
     find /opt/symlinks -maxdepth 1 ! -name searchsploit -exec chmod +x {} +
 }
 

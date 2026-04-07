@@ -39,7 +39,8 @@ rootPrograms = [
 	"smbserver.py",
 	"Responder.py",
 	"krbrelayx.py",
-	"ntlmrelayx.py"
+	"ntlmrelayx.py",
+	"ntlm-reflection"
 ]
 netAdminCapabilityPrograms = [
 	"openvpn",
@@ -54,9 +55,13 @@ deviceAccessPrograms = {
 	"BurpSuiteCommunity":"/dev/dri"
 }
 localStateFixes = {
-	"amass":"/home/user/.config/amass",
-	"nxc":"/home/user/.nxc",
-	"nuclei":"/home/user/nuclei-templates"
+	"amass"             :[f"{stateHome}/amass_state", "/home/user/.config/amass"],
+	"nxc"               :[f"{stateHome}/nxc_state", "/home/user/.nxc"],
+	"nxcdb"             :[f"{stateHome}/nxc_state", "/home/user/.nxc"],
+	"nuclei"            :[f"{stateHome}/nuclei_state", "/home/user/nuclei-templates"],
+	"ghidraRun"         :[f"{stateHome}/ghidraRun_state", "/home/user/.config/ghidra"],
+	"BurpSuiteCommunity":[f"{stateHome}/BurpSuiteCommunity_state", "/home/user/.BurpSuite,/home/user/.java"],
+	"sqlmap"            :[f"{stateHome}/sqlmap_state", "/home/user/.sqlmap"]
 }
 
 programName = sys.argv[0].split("/")[-1]
@@ -68,7 +73,7 @@ args = [
 	"--attach", "stdin",
 	"--attach", "stdout",
 	"--attach", "stderr",
-	"--env-file", "/opt/rutila-corium/config/environment.conf",
+	"--env-file", f"{stateHome}/config/environment.conf",
 	"--workdir", "/opt/host",
 	"--volume", f"{Path.cwd()}:/opt/host",
 	"--volume", "/opt/attack/:/opt/attack",
@@ -117,15 +122,26 @@ if "KRB5CCNAME" in os.environ.keys():
 	optionalArgs.append("KRB5CCNAME")
 
 if programName in localStateFixes.keys():
+	# stateLocationHost   = f"{stateHome}/{programName}_state"
+	stateLocationHost   = localStateFixes[programName][0]
+	stateLocationDocker = localStateFixes[programName][1]
 	try:
-		Path(f"{stateHome}/{programName}_state").mkdir(parents=True)
+		Path(stateLocationHost).mkdir(parents=True)
 	except FileExistsError:
 		pass
-	optionalArgs.append("--mount")
-	optionalArgs.append(f"type=bind,src={stateHome}/{programName}_state,dst={localStateFixes[programName]}")
+	if not "," in stateLocationDocker:
+		optionalArgs.append("--mount")
+		optionalArgs.append(f"type=bind,src={stateLocationHost},dst={stateLocationDocker}")
+	else:
+		dirs = stateLocationDocker.split(",")
+		for i, d in enumerate(dirs):
+			try:
+				Path(f"{stateLocationHost}/{i}").mkdir(parents=True)
+			except FileExistsError:
+				pass
+			optionalArgs.append("--mount")
+			optionalArgs.append(f"type=bind,src={stateLocationHost}/{i}/,dst={d}")
 
 command = prefix + optionalArgs + args + programArgs
-
-print(" ".join(command))
 
 os.spawnvpe(os.P_WAIT, command[0], command, os.environ)
