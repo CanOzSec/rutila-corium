@@ -47,8 +47,8 @@ function install_remmina() {
 
 
 function install_jadx() {
-	curl -fLo /tmp/jadx.zip 'https://github.com/skylot/jadx/releases/download/v1.5.3/jadx-1.5.3.zip'
-	unzip /tmp/jadx.zip -d /opt/repositories/jadx
+	cd /tmp/ && curl -s https://api.github.com/repos/skylot/jadx/releases/latest | jq -r .assets[].browser_download_url | grep -v win | wget -i -
+	unzip /tmp/jadx*.zip -d /opt/repositories/jadx
 	ln -sf /opt/repositories/jadx/bin/jadx /opt/symlinks
 	ln -sf /opt/repositories/jadx/bin/jadx-gui /opt/symlinks
 }
@@ -56,7 +56,8 @@ function install_jadx() {
 
 function install_recaf() {
 	mkdir -p /opt/repositories/recaf
-	curl -fLo /opt/repositories/recaf/recaf.jar https://github.com/Col-E/Recaf/releases/download/4.0.0-alpha/recaf-4x-alpha-linux-86x64.jar
+	cd /opt/repositories/recaf/ && curl -s https://api.github.com/repos/Col-E/Recaf/releases/latest | jq -r .assets[].browser_download_url | grep linux-86 | wget -i -
+	mv /opt/repositories/recaf/recaf*.jar /opt/repositories/recaf/recaf.jar
 	error_handling "installing recaf" "Installed recaf"
 	echo -e '#!/bin/bash\njava -XX:MaxRAMPercentage=50 -jar /opt/repositories/recaf/recaf.jar "@"' >> /opt/repositories/recaf/recaf
 	chmod +x /opt/repositories/recaf/recaf
@@ -65,10 +66,11 @@ function install_recaf() {
 
 
 function install_visualvm() {
-	curl -fLo /tmp/visualvm.zip https://github.com/oracle/visualvm/releases/download/2.2/visualvm_22.zip
+	cd /tmp/ && curl -s https://api.github.com/repos/oracle/visualvm/releases/latest | jq -r .assets[].browser_download_url | grep -e 'visualvm_.*.zip' | wget -i -
+	mv /tmp/visualvm* /tmp/visualvm.zip 
 	error_handling "installing visualvm" "Installed visualvm"
 	unzip /tmp/visualvm.zip -d /opt/repositories/visualvm
-	ln -sf /opt/repositories/visualvm/visualvm_22/bin/visualvm /opt/symlinks/
+	ln -sf /opt/repositories/visualvm/visualvm_*/bin/visualvm /opt/symlinks/
 }
 
 

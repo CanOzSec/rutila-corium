@@ -6,7 +6,7 @@ function install_apttools() {
 	export DEBIAN_FRONTEND=noninteractive
 	apt install -y arp-scan ike-scan nmap tcpdump iptables masscan redis-tools postgresql-client dsniff \
 				   default-mysql-client proxychains4 hydra tshark p0f dnsmasq hping3 snmp libmemcached-tools \
-				   python3-scapy
+				   python3-scapy traceroute swaks
 	error_handling "installing apt network tools" "Installed apt network tools"
 	ln -sf /usr/sbin/arp-scan /opt/symlinks/
 	ln -sf /usr/sbin/hping3 /opt/symlinks/
@@ -32,6 +32,7 @@ function install_apttools() {
 	ln -sf /usr/bin/traceroute /opt/symlinks/
 	ln -sf /usr/bin/traceroute6 /opt/symlinks/
 	ln -sf /usr/bin/nslookup /opt/symlinks/
+	ln -sf /usr/bin/swaks /opt/symlinks/
 }
 
 
@@ -86,4 +87,5 @@ install_apttools
 install_grpcurl
 install_chisel
 install_bettercap
+install_updog
 install_vlanpwn

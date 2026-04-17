@@ -37,7 +37,7 @@ function install_wpscan() {
 function install_eos() {
 	pipx install --global git+https://github.com/synacktiv/eos.git
 	error_handling "installing eos" "Installed eos"
-	/opt/pipx/venvs/eos/bin/python3.13 -m pip install setup-tools
+	/opt/pipx/venvs/eos/bin/python3.13 -m pip install setuptools
 	ln -sf /usr/local/bin/eos /opt/symlinks/
 }
 
@@ -70,12 +70,10 @@ function install_flaskunsign() {
 }
 
 
-function install_ysoserial() {
-	mkdir /opt/repositories/ysoserial
-	curl -fLo /opt/repositories/ysoserial/ysoserial.jar https://github.com/frohoff/ysoserial/releases/latest/download/ysoserial-all.jar
-	error_handling "installing ysoserial" "Installed ysoserial"
-	echo -e "#!"'/bin/bash\n/usr/lib/jvm/bellsoft-java8-amd64/bin/java -jar /opt/repositories/ysoserial/ysoserial.jar "$@"' > /opt/repositories/ysoserial/ysoserial
-	ln -sf /opt/repositories/ysoserial/ysoserial /opt/symlinks/
+function install_php_filter_chain_generator() {
+	git clone https://github.com/synacktiv/php_filter_chain_generator.git /opt/repositories/phpfilterchain
+	error_handling "installing php_filter_chain_generator" "Installed php_filter_chain_generator"
+	ln -sf /opt/repositories/phpfilterchain/*.py /opt/symlinks/
 }
 
 
@@ -115,7 +113,7 @@ install_sslscan
 install_wafw00f
 install_gitdumper
 install_flaskunsign
-install_ysoserial
+install_php_filter_chain_generator
 install_phpggc
 install_nuclei
 install_cookiemonster

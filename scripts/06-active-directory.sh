@@ -170,7 +170,7 @@ function install_pygpoabuse() {
 	error_handling "installing pyGPOAbuse" "Installed pyGPOAbuse"
 	python3 -m venv /opt/repositories/pygpoabuse/virt
 	/opt/repositories/pygpoabuse/virt/bin/python3 -m pip install -r /opt/repositories/pygpoabuse/requirements.txt
-	sed -i '0,/"""/s//#!\/opt\/repositories\/pygpoabuse\/virt\/bin\/python3\n"""/' /opt/repositories/pygpoabuse/pygpoabuse.py
+	sed -i 's/#!\/usr\/bin\/env python3/#!\/opt\/repositories\/pygpoabuse\/virt\/bin\/python3\n/' /opt/repositories/pygpoabuse/pygpoabuse.py
 	ln -sf /opt/repositories/pygpoabuse/pygpoabuse.py /opt/symlinks
 }
 

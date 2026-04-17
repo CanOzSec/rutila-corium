@@ -44,7 +44,8 @@ rootPrograms = [
 ]
 netAdminCapabilityPrograms = [
 	"openvpn",
-	"bettercap"
+	"bettercap",
+	"smbserver.py"
 ]
 netRawCapabilityPrograms = [
 	"nmap",
@@ -81,6 +82,7 @@ args = [
 	"--mount", f"type=bind,src={stateHome}/config/Responder.conf,dst=/etc/Responder.conf",
 	"--mount", f"type=bind,src={stateHome}/config/certs/responder.crt,dst=/etc/responder.crt",
 	"--mount", f"type=bind,src={stateHome}/config/certs/responder.key,dst=/etc/responder.key",
+	"--mount", f"type=bind,src={stateHome}/config/proxychains4.conf,dst=/etc/proxychains4.conf",
 	"--network", "host",
 	"--rm",
 	"--interactive",

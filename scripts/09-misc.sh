@@ -42,6 +42,21 @@ function install_rsactftool() {
 }
 
 
+function install_zsteg() {
+    gem install zsteg
+    error_handling "installing zsteg" "Installed zsteg"
+    ln -sf /usr/local/bin/zsteg /opt/symlinks/
+}
+
+
+function install_stegoveritas() {
+    export DEBIAN_FRONTEND=noninteractive
+    apt install -y libimage-exiftool-perl libexempi* p7zip-full foremost steghide libmagic1
+    pipx install --global git+https://github.com/bannsec/stegoVeritas.git
+    ln -sf /usr/local/bin/stegoveritas /opt/symlinks/
+}
+
+
 function install_terminal_tools() {
     apt install -y tmux neovim fzf file
     error_handling "installing terminal tools" "Installed terminal tools"
@@ -92,6 +107,8 @@ install_crunch_cupp_cewl
 install_john
 install_rsactftool
 set_java_version
+install_zsteg
+install_stegoveritas
 install_terminal_tools
 cleanup
 make_executable
