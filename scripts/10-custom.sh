@@ -10,12 +10,12 @@ function install_dotfiles(){
 
     su -Pc "cp /opt/dotfiles/tmux.conf /home/user/.config/tmux/" - user
     cp /opt/dotfiles/tmux.conf /root/.config/tmux/
-    
+
     # Configure bash.
     su -Pc "cp /opt/dotfiles/bashrc /home/user/.bashrc" - user
     cp /opt/dotfiles/bashrc /root/.bashrc
     # Change prompt color to red on root.
-    sed -i "s/220/52/" /root/.bashrc 
+    sed -i "s/220/52/" /root/.bashrc
 }
 
 
@@ -25,7 +25,7 @@ function install_vim_dotfiles(){
     mkdir -p /root/.config/nvim
     su -Pc "mkdir -p /home/user/.local/share/nvim/site/autoload/" - user
     mkdir -p /root/.local/share/nvim/site/autoload/
-    
+
     su -Pc "cp /opt/dotfiles/init.vim /home/user/.config/nvim/" - user
     cp /opt/dotfiles/init.vim /root/.config/nvim/
 

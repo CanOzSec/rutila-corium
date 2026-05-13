@@ -150,7 +150,7 @@ function install_hashgrab() {
 
 function install_pywhisker() {
 	pipx install --global git+https://github.com/ShutdownRepo/pywhisker.git
-	error_handling "installing pywhisker" "Installed pywhisker" 
+	error_handling "installing pywhisker" "Installed pywhisker"
 	ln -sf /usr/local/bin/pywhisker /opt/symlinks/
 }
 
@@ -184,7 +184,7 @@ function install_nopac() {
 	error_handling "installing noPac" "Installed noPac"
 	sed -i 's/\/usr\/bin\/env python/\/opt\/repositories\/krbrelayx\/virt\/bin\/python3/g' /opt/repositories/noPac/noPac.py
 	chmod +x /opt/repositories/noPac/noPac.py
-	/opt/repositories/krbrelayx/virt/bin/python3 -m pip install pycryptodome 
+	/opt/repositories/krbrelayx/virt/bin/python3 -m pip install pycryptodome
 	ln -sf /opt/repositories/noPac/noPac.py /opt/symlinks/
 }
 

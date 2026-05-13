@@ -1,9 +1,6 @@
 #!/bin/bash
 
-
 export GOPATH=/opt/repositories/go
-export RUSTUP_HOME=/opt/languages/rust
-export CARGO_HOME=/opt/languages/rust
 
 
 function error_handling() {

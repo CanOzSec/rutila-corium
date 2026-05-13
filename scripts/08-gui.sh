@@ -67,7 +67,7 @@ function install_recaf() {
 
 function install_visualvm() {
 	cd /tmp/ && curl -s https://api.github.com/repos/oracle/visualvm/releases/latest | jq -r .assets[].browser_download_url | grep -e 'visualvm_.*.zip' | wget -i -
-	mv /tmp/visualvm* /tmp/visualvm.zip 
+	mv /tmp/visualvm* /tmp/visualvm.zip
 	error_handling "installing visualvm" "Installed visualvm"
 	unzip /tmp/visualvm.zip -d /opt/repositories/visualvm
 	ln -sf /opt/repositories/visualvm/visualvm_*/bin/visualvm /opt/symlinks/
