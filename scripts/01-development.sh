@@ -24,18 +24,18 @@ function install_openjdks() {
 
 
 function install_go() {
-    curl -fLo /tmp/go1.25.3.linux-amd64.tar.gz https://go.dev/dl/go1.25.3.linux-amd64.tar.gz
-    tar -xf /tmp/go1.25.3.linux-amd64.tar.gz -C /opt/languages/
+    curl -fLo /tmp/go1.26.3.linux-amd64.tar.gz https://go.dev/dl/go1.26.3.linux-amd64.tar.gz
+    tar -xf /tmp/go1.26.3.linux-amd64.tar.gz -C /opt/languages/
     ln -sf /opt/languages/go/bin/go* /opt/symlinks
     error_handling "installing go" "Installed go"
 }
 
 
 function install_rust() {
-    mkdir -p /opt/languages/rust/cargo
-    curl https://sh.rustup.rs -sSf | CARGO_HOME=/opt/languages/rust/cargo RUSTUP_HOME=/opt/languages/rust sh -s -- -y
+    mkdir -p /opt/languages/rust
+    curl https://sh.rustup.rs -sSf | CARGO_HOME=/opt/languages/rust/.cargo RUSTUP_HOME=/opt/languages/rust/.rustup sh -s -- --default-toolchain none -y
     error_handling "installing rust" "Installed rust"
-    ln -sf /opt/languages/rust/cargo/bin/* /opt/symlinks/
+    ln -sf /opt/languages/rust/.cargo/bin/* /opt/symlinks/
 }
 
 

@@ -40,12 +40,15 @@ rootPrograms = [
 	"Responder.py",
 	"krbrelayx.py",
 	"ntlmrelayx.py",
-	"ntlm-reflection"
+	"ntlm-reflection",
+	"DoubleTagging.py",
+	"DTPHijacking.py",
+	"rustup"
 ]
 netAdminCapabilityPrograms = [
 	"openvpn",
 	"bettercap",
-	"smbserver.py"
+	"smbserver.py",
 ]
 netRawCapabilityPrograms = [
 	"nmap",
@@ -62,7 +65,9 @@ localStateFixes = {
 	"nuclei"            :[f"{stateHome}/nuclei_state", "/home/user/nuclei-templates"],
 	"ghidraRun"         :[f"{stateHome}/ghidraRun_state", "/home/user/.config/ghidra"],
 	"BurpSuiteCommunity":[f"{stateHome}/BurpSuiteCommunity_state", "/home/user/.BurpSuite,/home/user/.java"],
-	"sqlmap"            :[f"{stateHome}/sqlmap_state", "/home/user/.sqlmap"]
+	"sqlmap"            :[f"{stateHome}/sqlmap_state", "/home/user/.sqlmap"],
+	"cargo"             :[f"{stateHome}/cargo_state", "/opt/languages/rust/.cargo/registry", f"{stateHome}/rustup_state", "/opt/languages/rust/.rustup/"],
+	"rustup"            :[f"{stateHome}/rustup_state", "/opt/languages/rust/.rustup/"]
 }
 
 programName = sys.argv[0].split("/")[-1]
@@ -124,25 +129,26 @@ if "KRB5CCNAME" in os.environ.keys():
 	optionalArgs.append("KRB5CCNAME")
 
 if programName in localStateFixes.keys():
-	# stateLocationHost   = f"{stateHome}/{programName}_state"
-	stateLocationHost   = localStateFixes[programName][0]
-	stateLocationDocker = localStateFixes[programName][1]
-	try:
-		Path(stateLocationHost).mkdir(parents=True)
-	except FileExistsError:
-		pass
-	if not "," in stateLocationDocker:
-		optionalArgs.append("--mount")
-		optionalArgs.append(f"type=bind,src={stateLocationHost},dst={stateLocationDocker}")
-	else:
-		dirs = stateLocationDocker.split(",")
-		for i, d in enumerate(dirs):
-			try:
-				Path(f"{stateLocationHost}/{i}").mkdir(parents=True)
-			except FileExistsError:
-				pass
+	for i in range(0, len(localStateFixes[programName]), 2):
+		pair = localStateFixes[programName][i:i+2]
+		stateLocationHost   = pair[0]
+		stateLocationDocker = pair[1]
+		try:
+			Path(stateLocationHost).mkdir(parents=True)
+		except FileExistsError:
+			pass
+		if not "," in stateLocationDocker:
 			optionalArgs.append("--mount")
-			optionalArgs.append(f"type=bind,src={stateLocationHost}/{i}/,dst={d}")
+			optionalArgs.append(f"type=bind,src={stateLocationHost},dst={stateLocationDocker}")
+		else:
+			dirs = stateLocationDocker.split(",")
+			for i, d in enumerate(dirs):
+				try:
+					Path(f"{stateLocationHost}/{i}").mkdir(parents=True)
+				except FileExistsError:
+					pass
+				optionalArgs.append("--mount")
+				optionalArgs.append(f"type=bind,src={stateLocationHost}/{i}/,dst={d}")
 
 command = prefix + optionalArgs + args + programArgs
 

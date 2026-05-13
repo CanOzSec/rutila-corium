@@ -26,7 +26,7 @@ function install_impacket() {
 	error_handling "installing impacket" "Installed impacket"
 	ln -sf /opt/pipx/venvs/impacket/bin/*.py /opt/symlinks/
 	for i in $(ls -l /opt/pipx/venvs/impacket/bin/*.py | awk '{print $9}' | cut -d'/' -f 7 | cut -d '.' -f1);
-		do ln -sf /opt/pipx/venvs/impacket/bin/$i.py /tmp/impacket-$i;
+		do ln -sf /opt/pipx/venvs/impacket/bin/$i.py /opt/symlinks/impacket-$i;
 	done
 }
 
@@ -46,9 +46,6 @@ function install_netexec() {
 	ln -sf /usr/local/bin/netexec /opt/symlinks/
 	ln -sf /usr/local/bin/nxc /opt/symlinks/
 	ln -sf /usr/local/bin/nxcdb /opt/symlinks/
-	# create dbs.
-	/usr/local/bin/nxc
-	su -Pc "/usr/local/bin/nxc" - user
 }
 
 
@@ -193,12 +190,14 @@ function install_nopac() {
 
 
 function install_rusthound() {
-	export RUSTUP_HOME=/opt/languages/rust
-	export CARGO_HOME=/opt/languages/rust
-	export PATH=$PATH:/opt/languages/rust/cargo/bin
+	export RUSTUP_HOME=/tmp/.rustup
+	export CARGO_HOME=/opt/languages/rust/.cargo
+	export PATH=$PATH:/opt/languages/rust/.cargo/bin
+	# Rust default toolkit is not installed, so install it temporarily to preserve space.
+	/opt/symlinks/rustup default stable
 	/opt/symlinks/cargo install rusthound-ce
 	error_handling "installing rusthound-ce" "Installed rusthound-ce"
-	ln -sf /opt/languages/rust/bin/rusthound-ce /opt/symlinks/
+	ln -sf /opt/languages/rust/.cargo/bin/rusthound-ce /opt/symlinks/
 }
 
 
